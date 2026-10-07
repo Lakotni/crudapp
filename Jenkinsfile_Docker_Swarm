@@ -45,7 +45,7 @@ pipeline {
         sh '''
           echo "=== Развёртывание Canary (1 реплика) ==="
           docker stack deploy -c docker-compose_canary.yaml ${CANARY_APP_NAME} --with-registry-auth
-          sleep 40
+          sleep 10
           docker service ls --filter name=${CANARY_APP_NAME}
         '''
       }
@@ -96,7 +96,7 @@ pipeline {
               ${APP_NAME}_web-server
 
             echo "Ожидание стабилизации после первой реплики..."
-            sleep 40
+            sleep 10
             docker service ps ${APP_NAME}_web-server --no-trunc | head -20
 
             # Мониторинг после первого шага
@@ -115,7 +115,7 @@ pipeline {
             [ "$MONITOR_SUCCESS" -ge 9 ] || exit 1
 
             echo "Мониторинг после первой реплики прошёл!"
-            sleep 60
+            sleep 15
 
             # Шаг 2: Обновляем оставшиеся реплики
             echo "Шаг 2: Обновляем оставшиеся реплики"
@@ -126,7 +126,7 @@ pipeline {
               ${APP_NAME}_web-server
 
             echo "Ожидание завершения полного обновления..."
-            sleep 90
+            sleep 15
 
             # Проверяем, что все реплики обновлены
             echo "Статус после обновления:"
@@ -135,11 +135,11 @@ pipeline {
             # Удаляем canary — он больше не нужен
             echo "Удаление canary stack..."
             docker stack rm ${CANARY_APP_NAME} || true
-            sleep 20
+            sleep 10
           else
             echo "Первый деплой — разворачиваем продакшен"
             docker stack deploy -c docker-compose.yaml ${APP_NAME} --with-registry-auth
-            sleep 60
+            sleep 10
           fi
 
           echo "Постепенное переключение завершено"
