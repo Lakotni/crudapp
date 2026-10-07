@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Игры для запоминания | EnglishUP</title>
+    <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <button class="back-btn" onclick="goBack()">← Назад</button>
+            <h1 id="gameSetTitle">Загрузка...</h1>
+            <div class="game-stats" id="gameStats">
+                <span id="progressText">0 / 0</span>
+            </div>
+        </div>
+
+        <div class="game-mode-selector" id="gameModeSelector">
+            <button class="mode-btn active" data-mode="flashcards">🎴 Флеш-карточки</button>
+            <button class="mode-btn" data-mode="quiz">📝 Викторина</button>
+            <button class="mode-btn" data-mode="matching">🃏 Найди пару</button>
+        </div>
+
+        <!-- Режим: Флеш-карточки -->
+        <div id="flashcardsMode" class="game-mode active">
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-content" id="flashcardTerm"></div>
+                            <div class="flip-hint">👆 Нажмите для переворота</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-content" id="flashcardDef"></div>
+                            <div class="flip-hint">👆 Нажмите для продолжения</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <button class="nav-btn" id="prevCardBtn" disabled>◀ Предыдущая</button>
+                    <span class="card-counter" id="cardCounter">Карточка 1 из 0</span>
+                    <button class="nav-btn" id="nextCardBtn">Следующая ▶</button>
+                </div>
+                <div class="rating-buttons">
+                    <button class="rating-btn hard" data-rating="hard">😟 Сложно</button>
+                    <button class="rating-btn medium" data-rating="medium">😐 Средне</button>
+                    <button class="rating-btn easy" data-rating="easy">😊 Легко</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Режим: Викторина -->
+        <div id="quizMode" class="game-mode">
+            <div class="quiz-container">
+                <div class="quiz-question" id="quizQuestion">Загрузка...</div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <div class="quiz-controls">
+                    <button class="next-quiz-btn" id="nextQuizBtn" style="display: none;">Следующий вопрос →</button>
+                </div>
+                <div class="quiz-score" id="quizScore">Правильно: 0 / 0</div>
+            </div>
+        </div>
+
+        <!-- Режим: Найди пару -->
+        <div id="matchingMode" class="game-mode">
+            <div class="matching-container">
+                <div class="matching-stats">
+                    <span>Найдено пар: <span id="matchesFound">0</span></span>
+                    <span>Попыток: <span id="attemptsCount">0</span></span>
+                </div>
+                <div class="matching-grid" id="matchingGrid"></div>
+                <button class="reset-matching-btn" onclick="resetMatchingGame()">🔄 Перемешать</button>
+            </div>
+        </div>
+
+        <!-- Оверлей завершения -->
+        <div id="completionOverlay" class="completion-overlay" style="display: none;">
+            <div class="completion-card">
+                <h2>🎉 Поздравляем! 🎉</h2>
+                <p id="completionMessage">Вы завершили тренировку!</p>
+                <div class="completion-stats" id="completionStats"></div>
+                <div class="completion-buttons">
+                    <button class="retry-btn" onclick="retryCurrentGame()">🔄 Повторить</button>
+                    <button class="back-dashboard-btn" onclick="goBack()">📋 К наборам</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div>Загрузка карточек...</div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="game.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

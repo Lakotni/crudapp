@@ -1,0 +1,1065 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    padding: clamp(10px, 3vw, 20px);
+}
+
+.app-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ========== ШАПКА ========== */
+.header {
+    background: white;
+    border-radius: 15px;
+    padding: clamp(15px, 3vw, 20px) clamp(15px, 4vw, 30px);
+    margin-bottom: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header h1 {
+    color: #333;
+    font-size: clamp(18px, 5vw, 24px);
+}
+
+.header h1 span {
+    color: #667eea;
+}
+
+.header-buttons {
+    display: flex;
+    gap: clamp(8px, 2vw, 15px);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.user-name {
+    font-weight: bold;
+    color: #333;
+    background: #f0f0f0;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: clamp(12px, 3vw, 14px);
+}
+
+/* ========== КНОПКИ ========== */
+.btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 20px);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: clamp(12px, 3vw, 14px);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* ========== ДВЕ КОЛОНКИ ========== */
+.two-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+@media (max-width: 640px) {
+    .two-columns {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+.panel {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: 80vh;
+}
+
+@media (min-width: 768px) {
+    .panel {
+        height: calc(100vh - 140px);
+    }
+}
+
+.panel-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: clamp(15px, 3vw, 20px);
+    color: white;
+}
+
+.panel-header h2 {
+    font-size: clamp(18px, 4vw, 22px);
+    margin-bottom: 5px;
+}
+
+.panel-header p {
+    font-size: clamp(11px, 2.5vw, 13px);
+    opacity: 0.9;
+}
+
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: clamp(12px, 3vw, 20px);
+}
+
+/* ========== ПОИСК ========== */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 150px;
+    padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 15px);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: clamp(13px, 3vw, 14px);
+    outline: none;
+}
+
+@media (max-width: 480px) {
+    .search-box {
+        flex-direction: column;
+    }
+    
+    .search-box button {
+        width: 100%;
+    }
+}
+
+/* ========== КАРТОЧКИ НАБОРОВ ========== */
+.public-set-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.set-header {
+    padding: clamp(12px, 2.5vw, 15px);
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.set-header h3 {
+    font-size: clamp(14px, 4vw, 18px);
+    color: #333;
+    word-break: break-word;
+}
+
+.set-header .badge {
+    font-size: clamp(10px, 2.5vw, 12px);
+    color: #666;
+    margin-top: 4px;
+}
+
+.expand-btn {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: clamp(18px, 4vw, 20px);
+    padding: 5px 10px;
+    flex-shrink: 0;
+}
+
+.cards-preview {
+    padding: clamp(10px, 2vw, 15px);
+    background: #fff;
+    border-top: 1px solid #e9ecef;
+    display: none;
+}
+
+.cards-preview.show {
+    display: block;
+}
+
+/* ========== ПРЕВЬЮ КАРТОЧКИ ========== */
+.preview-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: clamp(10px, 2vw, 12px);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-left: 3px solid #667eea;
+}
+
+.preview-card-content {
+    flex: 1;
+    min-width: 120px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.preview-card-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.preview-card-image:hover {
+    transform: scale(1.05);
+}
+
+.preview-card-text {
+    flex: 1;
+}
+
+.preview-term {
+    font-weight: bold;
+    color: #333;
+    font-size: clamp(13px, 3vw, 15px);
+    margin-bottom: 5px;
+}
+
+.preview-def {
+    font-size: clamp(11px, 2.5vw, 13px);
+    color: #666;
+}
+
+.add-to-set-btn {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    border: none;
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 15px);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: clamp(11px, 2.5vw, 12px);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .preview-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .add-to-set-btn {
+        white-space: normal;
+        text-align: center;
+    }
+    
+    .preview-card-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.add-to-set-btn.added {
+    background: #28a745;
+    cursor: default;
+    opacity: 0.7;
+}
+
+/* ========== ПРАВАЯ ПАНЕЛЬ ========== */
+.set-info {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: clamp(12px, 2.5vw, 15px);
+    margin-bottom: 20px;
+}
+
+.set-info input,
+.set-info textarea {
+    width: 100%;
+    padding: clamp(8px, 2vw, 10px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: clamp(13px, 3vw, 14px);
+    margin-top: 5px;
+}
+
+.set-info textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+.set-info-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.set-info-buttons button {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* ========== СПИСОК КАРТОЧЕК ========== */
+.my-cards-list {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.my-card-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: clamp(10px, 2vw, 12px);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-left: 3px solid #28a745;
+}
+
+.my-card-content {
+    flex: 1;
+    min-width: 120px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.my-card-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.my-card-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.my-card-image:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+.image-edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.my-card-image-wrapper:hover .image-edit-overlay {
+    opacity: 1;
+}
+
+.image-edit-btn {
+    background: #4f46e5;
+    border: none;
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.image-edit-btn:hover {
+    background: #4338ca;
+    transform: scale(1.05);
+}
+
+.my-card-text {
+    flex: 1;
+}
+
+.my-card-term {
+    font-weight: bold;
+    color: #333;
+    font-size: clamp(13px, 3vw, 15px);
+}
+
+.my-card-def {
+    font-size: clamp(11px, 2.5vw, 13px);
+    color: #666;
+    margin-top: 3px;
+}
+
+.delete-card-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    padding: clamp(5px, 1.5vw, 6px) clamp(8px, 2vw, 12px);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: clamp(11px, 2.5vw, 12px);
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .my-card-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .my-card-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .delete-card-btn {
+        align-self: flex-end;
+    }
+}
+
+/* ========== ФОРМА НОВОЙ КАРТОЧКИ ========== */
+.add-new-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: clamp(12px, 2.5vw, 15px);
+    margin-top: 20px;
+}
+
+.add-new-card h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: clamp(14px, 3.5vw, 16px);
+}
+
+.add-new-card .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-new-card input[type="text"] {
+    width: 100%;
+    padding: clamp(8px, 2vw, 10px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: clamp(13px, 3vw, 14px);
+}
+
+.image-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.image-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #667eea;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== МОДАЛЬНОЕ ОКНО ДЛЯ КАРТИНКИ ========== */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.image-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(4px);
+}
+
+.image-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.image-modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.image-modal-close:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
+}
+
+/* ========== МОДАЛЬНОЕ ОКНО ДЛЯ ЗАГРУЗКИ КАРТИНКИ ========== */
+.image-upload-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3100;
+}
+
+.image-upload-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.image-upload-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+}
+
+.image-upload-modal-content h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.image-upload-area-modal {
+    border: 2px dashed #667eea;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.image-upload-area-modal:hover {
+    background: #f8f9ff;
+    border-color: #4f46e5;
+}
+
+.image-upload-area-modal input {
+    display: none;
+}
+
+.image-upload-area-modal label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-upload-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-save-image {
+    background: #4f46e5;
+    color: white;
+}
+
+.btn-save-image:hover {
+    background: #4338ca;
+}
+
+.btn-cancel-image {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.btn-cancel-image:hover {
+    background: #cbd5e1;
+}
+
+.btn-delete-image {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-delete-image:hover {
+    background: #dc2626;
+}
+
+/* Пустое сообщение */
+.empty-message {
+    text-align: center;
+    color: #999;
+    padding: clamp(20px, 5vw, 40px);
+    font-size: clamp(13px, 3vw, 14px);
+}
+
+/* Скролл */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+/* Loading оверлей */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    flex-direction: column;
+    color: white;
+    gap: 15px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Toast уведомления */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: white;
+    padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 24px);
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2000;
+    font-size: clamp(12px, 3vw, 14px);
+}
+
+@media (max-width: 480px) {
+    .toast {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        text-align: center;
+    }
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.success {
+    background: #28a745;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+/* ========== КАРТОЧКИ С КАРТИНКАМИ ========== */
+.my-card-image-wrapper {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.my-card-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.my-card-image:hover {
+    transform: scale(1.05);
+}
+
+/* Кнопка редактирования в правом верхнем углу */
+.image-edit-btn-circle {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    background: #4f46e5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.image-edit-btn-circle:hover {
+    background: #4338ca;
+    transform: scale(1.1);
+}
+
+.image-edit-btn-circle svg {
+    width: 14px;
+    height: 14px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+}
+
+.my-card-image-wrapper:hover .image-edit-btn-circle {
+    opacity: 1;
+}
+
+/* Если картинки нет - показываем заглушку */
+.my-card-image-placeholder {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    position: relative;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.my-card-image-placeholder:hover {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+}
+
+.image-edit-btn-circle-placeholder {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    background: #4f46e5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.image-edit-btn-circle-placeholder:hover {
+    background: #4338ca;
+    transform: scale(1.1);
+}
+
+.image-edit-btn-circle-placeholder svg {
+    width: 14px;
+    height: 14px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+}
+
+.my-card-image-placeholder:hover .image-edit-btn-circle-placeholder {
+    opacity: 1;
+}
+/* ========== КАРТОЧКИ С КАРТИНКАМИ ========== */
+.my-card-image-wrapper {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.my-card-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.my-card-image:hover {
+    transform: scale(1.05);
+}
+
+/* Кнопка редактирования в правом верхнем углу - кружок с карандашиком */
+.image-edit-btn-circle {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    background: #4f46e5;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.image-edit-btn-circle:hover {
+    background: #4338ca;
+    transform: scale(1.1);
+}
+
+.image-edit-btn-circle svg {
+    width: 12px;
+    height: 12px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+}
+
+.my-card-image-wrapper:hover .image-edit-btn-circle {
+    opacity: 1;
+}
+
+/* Плейсхолдер когда нет картинки */
+.my-card-image-placeholder {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    position: relative;
+    transition: all 0.2s;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.my-card-image-placeholder:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+}
+
+.image-edit-btn-circle-placeholder {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    background: #4f46e5;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.image-edit-btn-circle-placeholder:hover {
+    background: #4338ca;
+    transform: scale(1.1);
+}
+
+.image-edit-btn-circle-placeholder svg {
+    width: 12px;
+    height: 12px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+}
+
+.my-card-image-placeholder:hover .image-edit-btn-circle-placeholder {
+    opacity: 1;
+}
+
+.my-card-text {
+    flex: 1;
+}
+
+.my-card-term {
+    font-weight: bold;
+    color: #333;
+    font-size: clamp(13px, 3vw, 15px);
+}
+
+.my-card-def {
+    font-size: clamp(11px, 2.5vw, 13px);
+    color: #666;
+    margin-top: 3px;
+}

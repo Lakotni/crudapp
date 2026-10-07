@@ -1,0 +1,25 @@
+.form-card h2 {
+            color: #2196F3;
+}
+
+input:focus {
+    border-color: #2196F3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1976D2, #0D47A1);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.link a {
+    color: #2196F3;
+}
+
+.link a:hover {
+    color: #0D47A1;
+}

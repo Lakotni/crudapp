@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EnglishUP — Настройка диалога</title>
+  <link rel="stylesheet" href="css/dialog-setup.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- Боковая навигация -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">📘</span>
+      <span>EnglishUP</span>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item" data-view="cards">
+        <span class="nav-icon">🃟</span>
+        <span>Наборы</span>
+      </div>
+      <div class="nav-item active" data-view="dialogs">
+        <span class="nav-icon">💬</span>
+        <span>Диалоги</span>
+      </div>
+      <div class="nav-item" data-view="testing">
+        <span class="nav-icon">📝</span>
+        <span>Тестирование</span>
+      </div>
+      <div class="nav-item" data-view="journal">
+        <span class="nav-icon">📋</span>
+        <span>Журнал активности</span>
+      </div>
+      <div class="nav-item" data-view="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Настройки</span>
+      </div>
+    </nav>
+
+    <div class="user-info">
+      <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+    </div>
+  </aside>
+
+  <!-- Основной контент — настройка диалога -->
+  <main class="main-content">
+    <header class="content-header">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      <div class="greeting">
+        <h1>Настройка диалога</h1>
+        <p>Выберите параметры для общения с ИИ</p>
+      </div>
+    </header>
+
+    <div class="setup-container">
+
+      <!-- 1. Количество сообщений -->
+      <div class="setup-card">
+        <div class="setup-label">
+          <span class="setup-icon">💬</span>
+          <span>Количество сообщений (от ассистента)</span>
+        </div>
+        <div class="radio-group" id="msgCountGroup">
+          <label class="radio-card">
+            <input type="radio" name="msgCount" value="5">
+            <span>5</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="msgCount" value="10" checked>
+            <span>10</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="msgCount" value="20">
+            <span>20</span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="msgCount" value="30">
+            <span>30</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 2. Размер сообщений (сложность) -->
+      <div class="setup-card">
+        <div class="setup-label">
+          <span class="setup-icon">📏</span>
+          <span>Размер сообщений (сложность)</span>
+        </div>
+        <div class="radio-group-vertical" id="complexityGroup">
+          <label class="radio-option">
+            <input type="radio" name="complexity" value="easy">
+            <div class="option-content">
+              <div class="option-title">1) Начальный уровень</div>
+              <div class="option-desc">максимум 4-5 слов, простые конструкции</div>
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="complexity" value="medium" checked>
+            <div class="option-content">
+              <div class="option-title">2) Средний уровень</div>
+              <div class="option-desc">максимум 10 слов + придаточные предложения на английском</div>
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="complexity" value="hard">
+            <div class="option-content">
+              <div class="option-title">3) Продвинутый уровень</div>
+              <div class="option-desc">максимум 20 слов, небольшие изложения + сложные грамматические конструкции</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Кнопка старта диалога -->
+      <button id="startDialogBtn" class="btn-primary btn-large">🚀 Начать диалог</button>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/dialog-setup.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>

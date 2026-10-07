@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Конструктор наборов карточек</title>
+    <link rel="stylesheet" href="builder.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .char-counter {
+            font-size: 11px;
+            text-align: right;
+            margin-top: 4px;
+            color: #6c757d;
+        }
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        .char-counter.danger {
+            color: #dc3545;
+        }
+        .input-hint {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 4px;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>📚 <span>Карточки</span> | Конструктор наборов</h1>
+            <div class="header-buttons">
+                <span class="user-name" id="userName">Загрузка...</span>
+                <button class="btn btn-outline" onclick="goToDashboard()">📋 Мои наборы</button>
+                <button class="btn btn-danger" onclick="logout()">🚪 Выйти</button>
+            </div>
+        </div>
+
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div>Загрузка...</div>
+        </div>
+
+        <div class="panel" style="max-width: 800px; margin: 0 auto;">
+            <div class="panel-header">
+                <h2>✏️ Мой набор</h2>
+                <p>Создавайте и редактируйте карточки</p>
+            </div>
+            <div class="panel-content">
+                <div class="set-info">
+                    <label><strong>📌 Имя набора карточек</strong></label>
+                    <input type="text" id="setName" placeholder="Название набора" maxlength="50">
+                    <div class="char-counter" id="titleCounter">0 / 50</div>
+                    
+                    <label><strong>📝 Описание</strong></label>
+                    <textarea id="setDescription" placeholder="Описание" maxlength="70" rows="2"></textarea>
+                    <div class="char-counter" id="descCounter">0 / 70</div>
+                    
+                    <div class="set-info-buttons">
+                        <button class="btn btn-success" onclick="createNewSet()">➕ Новый набор</button>
+                        <button class="btn btn-primary" onclick="saveSet()">💾 SAVE</button>
+                    </div>
+                </div>
+
+                <h3 style="margin: 20px 0 10px;">📋 Карточки в наборе</h3>
+                <div id="myCardsList" class="my-cards-list"></div>
+
+                <div class="add-new-card">
+                    <h4>➕ Создать новую карточку</h4>
+                    <div class="form-row">
+                        <input type="text" id="newTerm" placeholder="Термин / слово" maxlength="80">
+                        <div class="char-counter" id="termCounter">0 / 80</div>
+                        <input type="text" id="newDefinition" placeholder="Определение / перевод" maxlength="80">
+                        <div class="char-counter" id="defCounter">0 / 80</div>
+                        <div class="image-upload-area">
+                            <input type="file" id="newCardImage" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('newCardImage').click()">🖼️ Выбрать картинку</button>
+                            <div id="imagePreview" class="image-preview" style="display: none;">
+                                <img id="previewImg" src="" alt="Превью">
+                                <button type="button" class="remove-image-btn" onclick="clearImagePreview()">✕</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="addNewCard()">Создать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="image-modal" style="display: none;">
+        <div class="image-modal-overlay"></div>
+        <div class="image-modal-content">
+            <img id="modalImage" src="" alt="Картинка карточки">
+            <button class="image-modal-close" onclick="closeImageModal()">✕</button>
+        </div>
+    </div>
+
+    <div id="imageUploadModal" class="image-upload-modal" style="display: none;">
+        <div class="image-upload-modal-overlay"></div>
+        <div class="image-upload-modal-content">
+            <h3>✏️ Редактировать картинку</h3>
+            <div class="image-upload-area-modal" onclick="document.getElementById('editCardImage').click()">
+                <input type="file" id="editCardImage" accept="image/*" style="display: none;">
+                <label>
+                    <div id="editImagePreviewArea">
+                        <img id="editImagePreview" class="image-upload-preview" src="" alt="Превью">
+                    </div>
+                    <span>🖼️ Нажмите, чтобы выбрать новую картинку</span>
+                </label>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-delete-image" onclick="deleteCurrentImage()">🗑️ Удалить картинку</button>
+                <button class="btn-cancel-image" onclick="closeImageUploadModal()">Отмена</button>
+                <button class="btn-save-image" onclick="saveCardImage()">💾 Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="builder.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

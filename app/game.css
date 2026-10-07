@@ -1,0 +1,654 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+}
+
+.game-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+}
+
+.back-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateX(-3px);
+}
+
+.game-header h1 {
+    color: white;
+    font-size: 1.3rem;
+    text-align: center;
+    flex: 1;
+}
+
+.game-stats {
+    background: rgba(0,0,0,0.5);
+    padding: 8px 16px;
+    border-radius: 30px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Выбор режима */
+.game-mode-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-btn {
+    background: transparent;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.mode-btn.active {
+    background: #4f46e5;
+    color: white;
+    box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+}
+
+.mode-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.game-mode {
+    display: none;
+    flex: 1;
+}
+
+.game-mode.active {
+    display: block;
+}
+
+/* ========== ФЛЕШ-КАРТОЧКИ ========== */
+.flashcard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.flashcard {
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 25px;
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.flashcard-front {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.flashcard-back {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.card-content {
+    font-size: 1.8rem;
+    font-weight: 600;
+    word-break: break-word;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.flip-hint {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 20px;
+}
+
+.flashcard-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 40px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.02);
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.card-counter {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.rating-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.rating-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rating-btn.hard {
+    background: #ef4444;
+    color: white;
+}
+
+.rating-btn.medium {
+    background: #f59e0b;
+    color: white;
+}
+
+.rating-btn.easy {
+    background: #10b981;
+    color: white;
+}
+
+.rating-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+/* ========== ВИКТОРИНА ========== */
+.quiz-container {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.quiz-question {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.quiz-option {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.quiz-option:hover:not(.disabled) {
+    background: #eef2ff;
+    border-color: #4f46e5;
+}
+
+.quiz-option.correct {
+    background: #d1fae5;
+    border-color: #10b981;
+}
+
+.quiz-option.wrong {
+    background: #fee2e2;
+    border-color: #ef4444;
+}
+
+.quiz-option.disabled {
+    cursor: default;
+}
+
+.quiz-feedback {
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.quiz-feedback.correct {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.quiz-feedback.wrong {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.next-quiz-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.next-quiz-btn:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+}
+
+.quiz-score {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #475569;
+}
+
+/* ========== НАЙДИ ПАРУ ========== */
+.matching-container {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.matching-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #f8fafc;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.matching-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.matching-card {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+}
+
+.matching-card.selected {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.matching-card.matched {
+    background: #10b981;
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+}
+
+.matching-card.matched.selected {
+    background: #10b981;
+}
+
+.matching-card:hover:not(.matched) {
+    transform: translateY(-3px);
+    filter: brightness(1.05);
+}
+
+.reset-matching-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.reset-matching-btn:hover {
+    background: #4338ca;
+}
+
+/* ========== ОВЕРЛЕЙ ЗАВЕРШЕНИЯ ========== */
+.completion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.completion-card {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 400px;
+    text-align: center;
+    animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    80% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.completion-card h2 {
+    color: #4f46e5;
+    margin-bottom: 15px;
+}
+
+.completion-stats {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 15px;
+}
+
+.completion-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.retry-btn, .back-dashboard-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.retry-btn {
+    background: #4f46e5;
+    color: white;
+}
+
+.back-dashboard-btn {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.retry-btn:hover, .back-dashboard-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ========== ОБЩИЕ ========== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2000;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4f46e5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2000;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.success {
+    background: #10b981;
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+@media (max-width: 600px) {
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .flashcard {
+        height: 280px;
+    }
+    
+    .card-content {
+        font-size: 1.3rem;
+    }
+    
+    .quiz-question {
+        font-size: 1.2rem;
+    }
+    
+    .matching-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .matching-card {
+        padding: 15px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .completion-buttons {
+        flex-direction: column;
+    }
+}
+/* Стили для картинок во флеш-карточках */
+.card-image-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-front-image,
+.card-back-image {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.card-term,
+.card-definition {
+    font-size: 1.5rem;
+    font-weight: 600;
+    word-break: break-word;
+    text-align: center;
+}
+
+/* Стили для картинок в игре "Найди пару" */
+.matching-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.matching-card-image {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.matching-card-text {
+    font-size: 0.85rem;
+    text-align: center;
+    word-break: break-word;
+}
+
+@media (max-width: 600px) {
+    .card-front-image,
+    .card-back-image {
+        max-width: 120px;
+        max-height: 100px;
+    }
+    
+    .card-term,
+    .card-definition {
+        font-size: 1.2rem;
+    }
+    
+    .matching-card-image {
+        max-width: 40px;
+        max-height: 40px;
+    }
+}

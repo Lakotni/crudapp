@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EnglishUP — Диалог с ИИ</title>
+  <link rel="stylesheet" href="css/dialog-chat.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- Боковая навигация (как в предыдущих частях) -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">📘</span>
+      <span>EnglishUP</span>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item" data-view="cards">
+        <span class="nav-icon">🃟</span>
+        <span>Наборы</span>
+      </div>
+      <div class="nav-item active" data-view="dialogs">
+        <span class="nav-icon">💬</span>
+        <span>Диалоги</span>
+      </div>
+      <div class="nav-item" data-view="testing">
+        <span class="nav-icon">📝</span>
+        <span>Тестирование</span>
+      </div>
+      <div class="nav-item" data-view="journal">
+        <span class="nav-icon">📋</span>
+        <span>Журнал активности</span>
+      </div>
+      <div class="nav-item" data-view="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Настройки</span>
+      </div>
+    </nav>
+
+     <div class="user-info">
+  	<button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+     </div>
+  
+  </aside>
+
+  <!-- Основной контент — окно диалога -->
+  <main class="main-content">
+
+    <!-- Верхняя панель с аватарами и прогрессом -->
+    <div class="dialog-header">
+      <button class="exit-dialog-btn" id="exitDialogBtn" title="Завершить диалог">✖ Завершить</button>
+
+      <div class="avatars-container">
+        <div class="avatar-item">
+          <div class="avatar-icon assistant-icon">🤖</div>
+          <span class="avatar-label">Ассистент</span>
+        </div>
+        <div class="avatar-item">
+          <div class="avatar-icon user-icon">👤</div>
+          <span class="avatar-label">Вы</span>
+        </div>
+      </div>
+
+      <div class="progress-indicator" id="progressIndicator">
+        <span id="messagesDone">0</span> / <span id="messagesTotal">0</span>
+      </div>
+    </div>
+
+    <!-- Область сообщений -->
+    <div class="messages-area" id="messagesArea">
+      <div class="welcome-message">
+        <div class="welcome-icon">💬</div>
+        <h3>Начните диалог</h3>
+        <p>Ассистент задаст вопросы, а вы отвечайте на английском</p>
+      </div>
+    </div>
+
+    <!-- Поле ввода -->
+    <div class="input-area">
+      <input type="text" id="userMessageInput" placeholder="Напишите ответ на английском..." autocomplete="off">
+      <button id="sendMessageBtn" class="send-btn">➤</button>
+    </div>
+  </main>
+</div>
+
+<!-- Модальное окно подтверждения завершения диалога -->
+<div id="confirmModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-icon">⚠️</div>
+    <h3>Завершить диалог?</h3>
+    <p>Вы уверены, что хотите завершить диалог досрочно?</p>
+    <div class="modal-buttons">
+      <button id="confirmYesBtn" class="modal-btn danger">Да, завершить</button>
+      <button id="confirmNoBtn" class="modal-btn secondary">Нет, продолжить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно с отчётом -->
+<div id="reportModal" class="modal hidden">
+  <div class="modal-content report-modal">
+    <div class="modal-icon">📊</div>
+    <h3>Отчёт по диалогу</h3>
+    <div id="reportContent" class="report-content">
+      <!-- динамическое содержимое отчёта -->
+    </div>
+    <button id="closeReportBtn" class="modal-btn primary">Закрыть</button>
+  </div>
+</div>
+
+<script src="js/dialog-chat.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>

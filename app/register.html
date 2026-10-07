@@ -1,0 +1,536 @@
+﻿l<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Learn English</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style_to_reg.css">
+    <style>
+        /* Дополнительные стили для сообщений */
+        .result-area {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        .result-area.show {
+            display: block;
+        }
+        .result-area.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .result-area.error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        .result-area.info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .field-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        input.error {
+            border-color: #dc3545 !important;
+        }
+        input.valid {
+            border-color: #28a745 !important;
+        }
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        .strength-weak { color: #dc3545; }
+        .strength-medium { color: #ffc107; }
+        .strength-strong { color: #28a745; }
+        
+        /* Дополнительные стили для подсказок */
+        .input-hint {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 4px;
+            padding-left: 5px;
+        }
+        .input-hint.error-hint {
+            color: #dc3545;
+        }
+        .input-hint.success-hint {
+            color: #28a745;
+        }
+        
+        /* Счётчик символов */
+        .char-counter {
+            font-size: 11px;
+            text-align: right;
+            margin-top: 4px;
+            color: #6c757d;
+        }
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        .char-counter.danger {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <h2>📝 Регистрация</h2>
+
+            <!-- Поле Логин -->
+            <div class="input-group">
+                <input type="text" id="login" placeholder="Придумайте логин" autocomplete="username" maxlength="20">
+                <div class="field-error" id="loginError"></div>
+                <div class="input-hint" id="loginHint">Латиница, цифры, _ и - (3-20 символов)</div>
+                <div class="char-counter" id="loginCounter">0 / 20</div>
+            </div>
+
+            <!-- Поле Email -->
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email адрес" autocomplete="email" maxlength="50">
+                <div class="field-error" id="emailError"></div>
+                <div class="input-hint">example@mail.ru</div>
+                <div class="char-counter" id="emailCounter">0 / 50</div>
+            </div>
+
+            <!-- Поле Пароль (максимум 20 символов) -->
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Пароль" autocomplete="new-password" maxlength="20">
+                <div class="password-strength" id="passwordStrength"></div>
+                <div class="field-error" id="passwordError"></div>
+                <div class="input-hint">Латиница, цифры, спецсимволы (4-20 символов)</div>
+                <div class="char-counter" id="passwordCounter">0 / 20</div>
+            </div>
+
+            <!-- Поле Подтверждение пароля -->
+            <div class="input-group">
+                <input type="password" id="confirm_password" placeholder="Подтвердите пароль" autocomplete="off" maxlength="20">
+                <div class="field-error" id="confirmError"></div>
+                <div class="char-counter" id="confirmCounter">0 / 20</div>
+            </div>
+
+            <button id="registerBtn" onclick="register()">Создать аккаунт</button>
+
+            <div class="link">
+                Уже есть аккаунт? <a href="login.html">Войти</a>
+            </div>
+
+            <div id="result" class="result-area"></div>
+        </div>
+    </div>
+
+    <script>
+        const auth_URL = "/backend/auth.php";
+        const registerBtn = document.getElementById('registerBtn');
+
+        // Элементы для валидации
+        const loginInput = document.getElementById('login');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm_password');
+
+        // Регулярное выражение для логина (латиница, цифры, _, -)
+        const loginRegex = /^[a-zA-Z0-9_-]*$/;
+        // Регулярное выражение для пароля (латиница, цифры, спецсимволы)
+        const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
+
+        // ========== СЧЁТЧИКИ СИМВОЛОВ ==========
+        function updateCounter(input, counterId, maxLength) {
+            const counter = document.getElementById(counterId);
+            if (!counter) return;
+            const length = input.value.length;
+            counter.textContent = length + ' / ' + maxLength;
+            
+            if (length === maxLength) {
+                counter.classList.add('danger');
+                counter.classList.remove('warning');
+            } else if (length > maxLength * 0.8) {
+                counter.classList.add('warning');
+                counter.classList.remove('danger');
+            } else {
+                counter.classList.remove('warning', 'danger');
+            }
+        }
+
+        // Счётчик для логина
+        loginInput.addEventListener('input', function() {
+            updateCounter(loginInput, 'loginCounter', 20);
+            validateLogin();
+        });
+
+        // Счётчик для email
+        emailInput.addEventListener('input', function() {
+            updateCounter(emailInput, 'emailCounter', 50);
+            validateEmail();
+        });
+
+        // Счётчик для пароля
+        passwordInput.addEventListener('input', function() {
+            updateCounter(passwordInput, 'passwordCounter', 20);
+            checkPasswordStrength(this.value);
+            validatePassword();
+            if (confirmInput.value.length > 0) {
+                validateConfirmPassword();
+            }
+        });
+
+        // Счётчик для подтверждения
+        confirmInput.addEventListener('input', function() {
+            updateCounter(confirmInput, 'confirmCounter', 20);
+            validateConfirmPassword();
+        });
+
+        // ========== ВАЛИДАЦИЯ ЛОГИНА ==========
+        function validateLogin() {
+            const login = loginInput.value;
+            const errorDiv = document.getElementById('loginError');
+            const hintSpan = document.getElementById('loginHint');
+            
+            if (login.length === 0) {
+                errorDiv.style.display = 'none';
+                loginInput.classList.remove('error', 'valid');
+                if (hintSpan) hintSpan.className = 'input-hint';
+                return false;
+            }
+            
+            // Проверка на допустимые символы
+            if (!loginRegex.test(login)) {
+                errorDiv.textContent = 'Логин может содержать только латиницу, цифры, _ и -';
+                errorDiv.style.display = 'block';
+                loginInput.classList.add('error');
+                loginInput.classList.remove('valid');
+                if (hintSpan) hintSpan.className = 'input-hint error-hint';
+                return false;
+            }
+            
+            // Проверка длины
+            if (login.length < 3) {
+                errorDiv.textContent = 'Логин должен быть минимум 3 символа';
+                errorDiv.style.display = 'block';
+                loginInput.classList.add('error');
+                loginInput.classList.remove('valid');
+                if (hintSpan) hintSpan.className = 'input-hint error-hint';
+                return false;
+            }
+            
+            if (login.length > 20) {
+                errorDiv.textContent = 'Логин не может быть длиннее 20 символов';
+                errorDiv.style.display = 'block';
+                loginInput.classList.add('error');
+                loginInput.classList.remove('valid');
+                if (hintSpan) hintSpan.className = 'input-hint error-hint';
+                return false;
+            }
+            
+            // Все проверки пройдены
+            errorDiv.style.display = 'none';
+            loginInput.classList.remove('error');
+            loginInput.classList.add('valid');
+            if (hintSpan) hintSpan.className = 'input-hint success-hint';
+            return true;
+        }
+
+        // ========== ВАЛИДАЦИЯ EMAIL ==========
+        function validateEmail() {
+            const email = emailInput.value;
+            const errorDiv = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email.length === 0) {
+                errorDiv.style.display = 'none';
+                emailInput.classList.remove('error', 'valid');
+                return false;
+            }
+            
+            if (!emailRegex.test(email)) {
+                errorDiv.textContent = 'Введите корректный email (example@mail.ru)';
+                errorDiv.style.display = 'block';
+                emailInput.classList.add('error');
+                emailInput.classList.remove('valid');
+                return false;
+            }
+            
+            if (email.length > 50) {
+                errorDiv.textContent = 'Email не может быть длиннее 50 символов';
+                errorDiv.style.display = 'block';
+                emailInput.classList.add('error');
+                emailInput.classList.remove('valid');
+                return false;
+            }
+            
+            errorDiv.style.display = 'none';
+            emailInput.classList.remove('error');
+            emailInput.classList.add('valid');
+            return true;
+        }
+
+        // ========== ОЦЕНКА СЛОЖНОСТИ ПАРОЛЯ ==========
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthDiv.innerHTML = '';
+                return;
+            }
+
+            if (strength <= 1) {
+                strengthDiv.innerHTML = 'Слабый пароль';
+                strengthDiv.className = 'password-strength strength-weak';
+            } else if (strength === 2) {
+                strengthDiv.innerHTML = 'Средний пароль';
+                strengthDiv.className = 'password-strength strength-medium';
+            } else {
+                strengthDiv.innerHTML = 'Сильный пароль';
+                strengthDiv.className = 'password-strength strength-strong';
+            }
+        }
+
+        // ========== ВАЛИДАЦИЯ ПАРОЛЯ ==========
+        function validatePassword() {
+            const password = passwordInput.value;
+            const errorDiv = document.getElementById('passwordError');
+            
+            if (password.length === 0) {
+                errorDiv.style.display = 'none';
+                passwordInput.classList.remove('error', 'valid');
+                return false;
+            }
+            
+            // Проверка на допустимые символы
+            if (!passwordRegex.test(password)) {
+                errorDiv.textContent = 'Пароль может содержать только латиницу, цифры и спецсимволы (!@#$%^&* и т.д.)';
+                errorDiv.style.display = 'block';
+                passwordInput.classList.add('error');
+                passwordInput.classList.remove('valid');
+                return false;
+            }
+            
+            // Проверка длины
+            if (password.length < 4) {
+                errorDiv.textContent = 'Пароль должен быть минимум 4 символа';
+                errorDiv.style.display = 'block';
+                passwordInput.classList.add('error');
+                passwordInput.classList.remove('valid');
+                return false;
+            }
+            
+            if (password.length > 20) {
+                errorDiv.textContent = 'Пароль не может быть длиннее 20 символов';
+                errorDiv.style.display = 'block';
+                passwordInput.classList.add('error');
+                passwordInput.classList.remove('valid');
+                return false;
+            }
+            
+            errorDiv.style.display = 'none';
+            passwordInput.classList.remove('error');
+            passwordInput.classList.add('valid');
+            return true;
+        }
+
+        // ========== ВАЛИДАЦИЯ ПОДТВЕРЖДЕНИЯ ПАРОЛЯ ==========
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirm = confirmInput.value;
+            const errorDiv = document.getElementById('confirmError');
+            
+            if (confirm.length === 0) {
+                errorDiv.style.display = 'none';
+                confirmInput.classList.remove('error', 'valid');
+                return false;
+            }
+            
+            if (password !== confirm) {
+                errorDiv.textContent = 'Пароли не совпадают';
+                errorDiv.style.display = 'block';
+                confirmInput.classList.add('error');
+                confirmInput.classList.remove('valid');
+                return false;
+            }
+            
+            errorDiv.style.display = 'none';
+            confirmInput.classList.remove('error');
+            confirmInput.classList.add('valid');
+            return true;
+        }
+
+        // ========== ПОЛНАЯ ВАЛИДАЦИЯ ПЕРЕД ОТПРАВКОЙ ==========
+        function fullValidate() {
+            const isLoginValid = validateLogin();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+            const isConfirmValid = validateConfirmPassword();
+            
+            if (!isLoginValid) {
+                showFieldError('login', 'Проверьте правильность логина');
+                return false;
+            }
+            if (!isEmailValid) {
+                showFieldError('email', 'Проверьте правильность email');
+                return false;
+            }
+            if (!isPasswordValid) {
+                showFieldError('password', 'Проверьте правильность пароля');
+                return false;
+            }
+            if (!isConfirmValid) {
+                showFieldError('confirm_password', 'Пароли не совпадают');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function showFieldError(fieldId, message) {
+            const errorMap = {
+                'login': 'loginError',
+                'email': 'emailError',
+                'password': 'passwordError',
+                'confirm_password': 'confirmError'
+            };
+            const errorDiv = document.getElementById(errorMap[fieldId]);
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+            document.getElementById(fieldId).classList.add('error');
+        }
+
+        function showResult(message, type = 'error') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result-area show ${type}`;
+            
+            if (type !== 'error') {
+                setTimeout(() => {
+                    resultDiv.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                registerBtn.disabled = true;
+                registerBtn.innerHTML = '<span class="loading"></span> Регистрация...';
+            } else {
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = 'Создать аккаунт';
+            }
+        }
+
+        // ========== ОТПРАВКА РЕГИСТРАЦИИ ==========
+        async function register() {
+            const login = loginInput.value;
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const resultDiv = document.getElementById('result');
+
+            // Скрываем предыдущий результат
+            resultDiv.classList.remove('show');
+            
+            // Клиентская валидация
+            if (!fullValidate()) {
+                return;
+            }
+
+            setLoading(true);
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'register');
+            formData.append('login', login.trim());
+            formData.append('password', password);
+            formData.append('email', email.trim());
+
+            try {
+                const response = await fetch(auth_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showResult('✅ ' + data.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                } else {
+                    showResult('❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showResult('❌ Ошибка соединения с сервером. Проверьте, запущен ли Apache.', 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        function initCounters() {
+            updateCounter(loginInput, 'loginCounter', 20);
+            updateCounter(emailInput, 'emailCounter', 50);
+            updateCounter(passwordInput, 'passwordCounter', 20);
+            updateCounter(confirmInput, 'confirmCounter', 20);
+        }
+
+        // Добавляем обработчики для ввода
+        loginInput.addEventListener('input', validateLogin);
+        emailInput.addEventListener('input', validateEmail);
+        passwordInput.addEventListener('input', validatePassword);
+        confirmInput.addEventListener('input', validateConfirmPassword);
+
+        // Enter для отправки
+        const inputs = ['login', 'email', 'password', 'confirm_password'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') register();
+            });
+        });
+
+        // Инициализация
+        initCounters();
+    </script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

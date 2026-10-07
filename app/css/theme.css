@@ -1,0 +1,221 @@
+﻿/* theme.css - глобальные стили для тёмной темы */
+
+body.dark-theme {
+  background: #0f172a;
+}
+
+body.dark-theme .sidebar {
+  background: #1e293b;
+  border-right-color: #334155;
+}
+
+body.dark-theme .logo,
+body.dark-theme .nav-item,
+body.dark-theme .user-name {
+  color: #e2e8f0;
+}
+
+body.dark-theme .nav-item:hover {
+  background: #334155;
+}
+
+body.dark-theme .nav-item.active {
+  background: #4f46e5;
+  color: white;
+}
+
+body.dark-theme .main-content {
+  background: #0f172a;
+}
+
+body.dark-theme .greeting h1,
+body.dark-theme h2 {
+  color: #e2e8f0;
+}
+
+body.dark-theme .greeting p {
+  color: #94a3b8;
+}
+
+body.dark-theme .set-card,
+body.dark-theme .session-card,
+body.dark-theme .question-card,
+body.dark-theme .stats-card,
+body.dark-theme .journal-card,
+body.dark-theme .settings-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark-theme .set-info h3,
+body.dark-theme .session-title,
+body.dark-theme .question-text,
+body.dark-theme .stat-value,
+body.dark-theme .card-header h2,
+body.dark-theme .info-label {
+  color: #e2e8f0;
+}
+
+body.dark-theme .card-count,
+body.dark-theme .session-date,
+body.dark-theme .stat-label,
+body.dark-theme .question-topic,
+body.dark-theme .info-value,
+body.dark-theme .action-date,
+body.dark-theme .action-type,
+body.dark-theme .test-stats {
+  color: #94a3b8;
+}
+
+body.dark-theme .logout-btn {
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+body.dark-theme .logout-btn:hover {
+  background: #334155;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+body.dark-theme .answer-option {
+  background: #334155;
+  border-color: #475569;
+}
+
+body.dark-theme .answer-option label {
+  color: #e2e8f0;
+}
+
+body.dark-theme .answer-option.selected {
+  background: #4f46e5;
+  border-color: #4f46e5;
+}
+
+body.dark-theme .btn-primary {
+  background: #4f46e5;
+}
+
+body.dark-theme .btn-secondary {
+  background: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+body.dark-theme .btn-secondary:hover {
+  background: #475569;
+}
+
+body.dark-theme .modal-content {
+  background: #1e293b;
+}
+
+body.dark-theme .modal-content h3,
+body.dark-theme .result-label {
+  color: #e2e8f0;
+}
+
+body.dark-theme .result-content {
+  background: #0f172a;
+}
+
+body.dark-theme .result-value {
+  color: #4f46e5;
+}
+
+/* ========== ЖУРНАЛ АКТИВНОСТИ (ТЁМНАЯ ТЕМА) ========== */
+
+/* Основной контент */
+body.dark-theme .journal-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark-theme .card-header {
+  border-bottom-color: #334155;
+}
+
+body.dark-theme .card-header h2 {
+  color: #e2e8f0;
+}
+
+body.dark-theme .action-item {
+  border-bottom-color: #334155;
+}
+
+body.dark-theme .action-date,
+body.dark-theme .set-title {
+  color: #e2e8f0;
+}
+
+body.dark-theme .action-type,
+body.dark-theme .test-stats,
+body.dark-theme .progress-stats,
+body.dark-theme .test-details {
+  color: #94a3b8;
+}
+
+body.dark-theme .test-date {
+  color: #f1f5f9;
+}
+
+body.dark-theme .test-level {
+  color: #818cf8;
+}
+
+body.dark-theme .progress-bar-bg {
+  background: #334155;
+}
+
+body.dark-theme .empty-message {
+  color: #94a3b8;
+}
+
+body.dark-theme .delete-action-btn,
+body.dark-theme .delete-test-btn {
+  color: #94a3b8;
+}
+
+body.dark-theme .delete-action-btn:hover,
+body.dark-theme .delete-test-btn:hover {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* Модальное окно в тёмной теме */
+body.dark-theme .modal-content {
+  background: #1e293b;
+}
+
+body.dark-theme .modal-content h3 {
+  color: #e2e8f0;
+}
+
+body.dark-theme .modal-content p {
+  color: #94a3b8;
+}
+
+body.dark-theme .modal-btn.secondary {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+body.dark-theme .modal-btn.secondary:hover {
+  background: #475569;
+}
+
+/* Toast в тёмной теме */
+body.dark-theme .toast {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+body.dark-theme .toast.success {
+  background: #065f46;
+  color: white;
+}
+
+body.dark-theme .toast.error {
+  background: #7f1d1d;
+  color: white;
+}

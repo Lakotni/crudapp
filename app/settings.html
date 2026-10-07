@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EnglishUP — Настройки</title>
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- Боковая навигация -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <span class="logo-icon">📘</span>
+      <span>EnglishUP</span>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item" data-view="cards">
+        <span class="nav-icon">🃟</span>
+        <span>Наборы</span>
+      </div>
+      <div class="nav-item" data-view="dialogs">
+        <span class="nav-icon">💬</span>
+        <span>Диалоги</span>
+      </div>
+      <div class="nav-item" data-view="testing">
+        <span class="nav-icon">📝</span>
+        <span>Тестирование</span>
+      </div>
+      <div class="nav-item" data-view="journal">
+        <span class="nav-icon">📋</span>
+        <span>Журнал активности</span>
+      </div>
+      <div class="nav-item active" data-view="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Настройки</span>
+      </div>
+    </nav>
+
+    <div class="user-info">
+      <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+    </div>
+  </aside>
+
+  <!-- Основной контент -->
+  <main class="main-content">
+    <header class="content-header">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      <div class="greeting">
+        <h1>⚙️ Настройки</h1>
+        <p>Управление профилем и внешним видом</p>
+      </div>
+    </header>
+
+    <div class="settings-container">
+
+      <!-- Блок: Оформление -->
+      <div class="settings-card">
+        <div class="card-header">
+          <span class="card-icon">🎨</span>
+          <h2>Оформление</h2>
+        </div>
+        <div class="card-content">
+          <div class="theme-switch-wrapper">
+            <span class="theme-label">🌞 Светлая тема</span>
+            <label class="switch">
+              <input type="checkbox" id="themeToggle">
+              <span class="slider round"></span>
+            </label>
+            <span class="theme-label">🌙 Тёмная тема</span>
+          </div>
+          <p class="theme-note">Выберите тему для комфортной работы</p>
+        </div>
+      </div>
+
+      <!-- Блок: Данные пользователя (без уровня языка) -->
+      <div class="settings-card">
+        <div class="card-header">
+          <span class="card-icon">👤</span>
+          <h2>Данные пользователя</h2>
+        </div>
+        <div class="card-content user-info-card">
+          <div class="info-row">
+            <span class="info-label">Логин</span>
+            <span class="info-value" id="userLogin">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">ID пользователя</span>
+            <span class="info-value" id="userId">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email</span>
+            <span class="info-value" id="userEmail">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок: О приложении -->
+      <div class="settings-card">
+        <div class="card-header">
+          <span class="card-icon">ℹ️</span>
+          <h2>О приложении</h2>
+        </div>
+        <div class="card-content">
+          <div class="info-row">
+            <span class="info-label">Версия</span>
+            <span class="info-value">1.0.0</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Разработчик</span>
+            <span class="info-value">EnglishUP Team</span>
+          </div>
+          <button class="contact-btn" id="contactDevsBtn">
+            📧 Написать разработчикам
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="js/theme.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

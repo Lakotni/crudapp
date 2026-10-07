@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EnglishUP — Индивидуальное тестирование</title>
+  <link rel="stylesheet" href="css/testing.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Основной контент — окно тестирования -->
+  <main class="main-content">
+    <header class="content-header">
+      <h1>📝 Индивидуальное тестирование</h1>
+      <p>Определите ваш уровень английского языка</p>
+    </header>
+
+    <!-- Статистика тестирования (карточка сверху) -->
+    <div class="stats-card" id="statsCard">
+      <div class="stat-item">
+        <span class="stat-label">Попытка №</span>
+        <span class="stat-value" id="attemptCount">--</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Всего вопросов</span>
+        <span class="stat-value" id="totalQuestions">30</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Пройдено</span>
+        <span class="stat-value" id="answeredCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Текущий балл</span>
+        <span class="stat-value" id="currentScore">0</span>
+      </div>
+    </div>
+
+    <!-- Карточка текущего вопроса -->
+    <div class="question-card" id="questionCard">
+      <div class="question-header">
+        <span class="question-number" id="questionNumber">Вопрос 1 / 30</span>
+        <span class="question-topic" id="questionTopic">Тема: --</span>
+      </div>
+      <div class="question-text" id="questionText">
+        Загрузка вопроса...
+      </div>
+      <div class="answers-list" id="answersList">
+        <!-- варианты ответов появятся динамически -->
+      </div>
+    </div>
+
+    <!-- Кнопки управления -->
+    <div class="testing-actions">
+  <div class="left-buttons">
+    <button class="btn-outline" onclick="goToDashboard()">📋 К наборам</button>
+  </div>
+  <div class="right-buttons">
+    <button class="btn-secondary" id="prevQuestionBtn" disabled>◀ Назад</button>
+    <button class="btn-primary" id="nextQuestionBtn">Далее ▶</button>
+    <button class="btn-danger" id="finishTestBtn">🏁 Завершить тестирование</button>
+  </div>
+</div>
+<!-- Модальное окно завершения теста с результатами -->
+<div id="resultModal" class="modal hidden">
+  <div class="modal-content result-modal">
+    <div class="modal-icon">📊</div>
+    <h3>Результат тестирования</h3>
+    <div id="resultContent" class="result-content">
+      <!-- динамический результат -->
+    </div>
+    <button id="closeResultBtn" class="modal-btn primary">Понятно</button>
+  </div>
+</div>
+
+<!-- Модальное окно подтверждения досрочного завершения -->
+<div id="confirmFinishModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-icon">⚠️</div>
+    <h3>Завершить тестирование досрочно?</h3>
+    <p>Вы ответили не на все вопросы. Результат будет рассчитан по отвеченным вопросам.</p>
+    <div class="modal-buttons">
+      <button id="confirmFinishYesBtn" class="modal-btn danger">Да, завершить</button>
+      <button id="confirmFinishNoBtn" class="modal-btn secondary">Нет, продолжить</button>
+    </div>
+  </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+  <div class="loading-spinner"></div>
+  <div>Загрузка...</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/testing.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>

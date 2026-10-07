@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация | Learn English</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Дополнительные стили для сообщений */
+        .result-area {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        .result-area.show {
+            display: block;
+        }
+        .result-area.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .result-area.error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        .result-area.info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <h2>Вход в аккаунт</h2>
+
+            <div class="input-group">
+                <input type="text" id="login" placeholder="Логин" autocomplete="username">
+                <div class="field-error" style="color:#721c24; font-size:12px; margin-top:5px; display:none;"></div>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Пароль" autocomplete="current-password">
+                <div class="field-error" style="color:#dc3545; font-size:12px; margin-top:5px; display:none;"></div>
+            </div>
+
+            <button id="loginBtn" onclick="login()">Войти</button>
+
+            <div class="link">
+                Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+            </div>
+
+            <div id="result" class="result-area"></div>
+        </div>
+    </div>
+
+    <script>
+        const auth_URL = "../backend/auth.php";
+        const loginBtn = document.getElementById('loginBtn');
+
+        // Очистка предыдущих ошибок при вводе
+        document.getElementById('login').addEventListener('input', function() {
+            hideFieldError('login');
+        });
+        document.getElementById('password').addEventListener('input', function() {
+            hideFieldError('password');
+        });
+
+        function hideFieldError(fieldId) {
+            const inputGroup = document.getElementById(fieldId).parentElement;
+            const errorDiv = inputGroup.querySelector('.field-error');
+            if (errorDiv) errorDiv.style.display = 'none';
+            document.getElementById(fieldId).style.borderColor = '';
+        }
+
+        function showFieldError(fieldId, message) {
+            const inputGroup = document.getElementById(fieldId).parentElement;
+            const errorDiv = inputGroup.querySelector('.field-error');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+            document.getElementById(fieldId).style.borderColor = '#dc3545';
+        }
+
+        function showResult(message, type = 'error') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result-area show ${type}`;
+            
+            // Автоматически скрыть через 5 секунд (кроме ошибок сервера)
+            if (type !== 'error') {
+                setTimeout(() => {
+                    resultDiv.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<span class="loading"></span> Вход...';
+            } else {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Войти';
+            }
+        }
+
+        // Валидация полей
+        function validateForm(login, password) {
+            // Очищаем предыдущие ошибки
+            hideFieldError('login');
+            hideFieldError('password');
+
+            let isValid = true;
+
+            if (!login || login.trim() === '') {
+                showFieldError('login', 'Логин не может быть пустым');
+                isValid = false;
+            } else if (login.length < 3) {
+                showFieldError('login', 'Логин должен содержать минимум 3 символа');
+                isValid = false;
+            }
+
+            if (!password) {
+                showFieldError('password', 'Введите пароль');
+                isValid = false;
+            } else if (password.length < 4) {
+                showFieldError('password', 'Пароль должен содержать минимум 4 символа');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        async function login() {
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+
+            // Скрываем предыдущий результат
+            resultDiv.classList.remove('show');
+
+            // Клиентская валидация
+            if (!validateForm(login, password)) {
+                return;
+            }
+
+            setLoading(true);
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'login');
+            formData.append('login', login.trim());
+            formData.append('password', password);
+
+            try {
+                const response = await fetch(auth_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+
+                // Проверка HTTP статуса
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showResult('✅ ' + data.message, 'success');
+                    // Сохраняем данные пользователя
+                    if (data.user) {
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                    }
+                    // Переход в личный кабинет
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showResult('❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showResult('❌ Ошибка соединения с сервером. Проверьте, запущен ли Apache.', 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Добавляем возможность нажать Enter для отправки
+        document.getElementById('login').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>
