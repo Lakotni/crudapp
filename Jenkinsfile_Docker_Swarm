@@ -5,7 +5,7 @@ pipeline {
     CANARY_APP_NAME = 'app-canary'
     DOCKER_HUB_USER = 'lakotni'
     GIT_REPO = 'https://github.com/Lakotni/crudapp.git'
-    BACKEND_IMAGE_NAME = 'backend:sslapache'
+    BACKEND_IMAGE_NAME = 'backend'
     DATABASE_IMAGE_NAME = 'db'
     MANAGER_IP = '192.168.0.1'
   }
