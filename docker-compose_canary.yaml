@@ -16,7 +16,7 @@ services:
   db:
     image: ${DOCKER_HUB_USER}/db:${BUILD_NUMBER}
     deploy:
-    replicas: 1
+      replicas: 1
     environment:
       - MYSQL_ROOT_PASSWORD=1
       - MYSQL_DATABASE=db1

@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
       - phpmyadmin
-    delpoy:
+    deploy:
       replicas: 3
   db:
     image: lakotni/db
