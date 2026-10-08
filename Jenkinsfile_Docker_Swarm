@@ -94,7 +94,7 @@ stage('Database Validation') {
       READY=0
       for i in $(seq 1 60); do
         if mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" \
-             -e '"SELECT 1;"' > /dev/null 2>&1; then
+             -e '"SELECT 1;"'; then
           echo "✓ MySQL готов (попытка $i)"
           READY=1
           break
