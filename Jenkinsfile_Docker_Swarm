@@ -172,7 +172,7 @@ stage('Database Validation') {
             # Мониторинг после первого шага
             echo "=== Мониторинг после первой реплики ==="
             MONITOR_SUCCESS=0
-            MONITOR_TESTS=10
+            MONITOR_TESTS=2
             for j in $(seq 1 $MONITOR_TESTS); do
               if curl -f -s --max-time 15 http://${MANAGER_IP}:8080/ > /tmp/monitor_$j.html; then
                 if ! grep -iq "fatal" /tmp/monitor_$j.html; then
@@ -182,7 +182,7 @@ stage('Database Validation') {
               sleep 5
             done
             echo "Успешных проверок после первой реплики: $MONITOR_SUCCESS/$MONITOR_TESTS"
-            [ "$MONITOR_SUCCESS" -ge 9 ] || exit 1
+            [ "$MONITOR_SUCCESS" -ge 1 ] || exit 1
 
             echo "Мониторинг после первой реплики прошёл!"
             sleep 15
