@@ -77,7 +77,73 @@ pipeline {
         '''
       }
     }
-
+stage('Database Validation') {
+  steps {
+    sh '''
+      echo "=== Проверка структуры и данных в БД ==="
+      
+      DB_CONTAINER=$(docker ps --filter "name=app-canary_db" --format "{{.ID}}" | head -1)
+      
+      if [ -z "$DB_CONTAINER" ]; then
+        echo "✗ Контейнер БД не найден в стеке app-canary"
+        exit 1
+      fi
+      
+      echo "Контейнер БД: $DB_CONTAINER"
+      
+      echo "Ожидание готовности MySQL..."
+      for i in $(seq 1 30); do
+        if docker exec $DB_CONTAINER mysqladmin ping -h localhost --silent 2>/dev/null; then
+          echo "✓ MySQL готов"
+          break
+        fi
+        echo "  Попытка $i/30..."
+        sleep 3
+      done
+      
+      # --- Проверка 1: тип данных колонки front_content в таблице cards ---
+      echo "=== Проверка 1: тип данных cards.front_content ==="
+      
+      COLUMN_TYPE=$(docker exec $DB_CONTAINER mysql -u root -p${MYSQL_ROOT_PASSWORD} -N -B -e "
+        SELECT DATA_TYPE 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_SCHEMA = 'db1' 
+          AND TABLE_NAME = 'cards' 
+          AND COLUMN_NAME = 'front_content';
+      " 2>/dev/null)
+      
+      echo "Тип данных колонки: $COLUMN_TYPE"
+      
+      if [ "$COLUMN_TYPE" = "varchar" ]; then
+        echo "✗ ОШИБКА: колонка front_content имеет тип varchar, ожидается text"
+        exit 1
+      elif [ "$COLUMN_TYPE" = "text" ]; then
+        echo "✓ Тип данных корректен (text)"
+      else
+        echo "✗ ОШИБКА: неожиданный тип данных: $COLUMN_TYPE"
+        exit 1
+      fi
+      
+      # --- Проверка 2: наличие записи в таблице users ---
+      echo "=== Проверка 2: наличие записи в таблице users ==="
+      
+      USER_COUNT=$(docker exec $DB_CONTAINER mysql -u root -p${MYSQL_ROOT_PASSWORD} -N -B -e "
+        SELECT COUNT(*) FROM db1.users;
+      " 2>/dev/null)
+      
+      echo "Записей в таблице users: $USER_COUNT"
+      
+      if [ "$USER_COUNT" -gt 0 ]; then
+        echo "✓ В таблице users есть записи"
+      else
+        echo "✗ ОШИБКА: таблица users пуста"
+        exit 1
+      fi
+      
+      echo "=== Все проверки БД пройдены ==="
+    '''
+  }
+}
     stage('Gradual Traffic Shift') {
       steps {
         sh '''
