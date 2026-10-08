@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: db
--- Время создания: Окт 08 2026 г., 19:35
+-- Время создания: Окт 08 2026 г., 19:44
 -- Версия сервера: 8.0.19
 -- Версия PHP: 7.4.1
 
@@ -102,26 +102,6 @@ CREATE TABLE `dialogs` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Дамп данных таблицы `dialogs`
---
-
-INSERT INTO `dialogs` (`id`, `user_id`, `dialog_date`, `message_count`, `complexity`, `completed`, `created_at`) VALUES
-(14, 1, '2026-05-24', 10, 'medium', 1, '2026-05-24 17:26:54'),
-(15, 1, '2026-05-24', 10, 'medium', 0, '2026-05-24 17:30:13'),
-(16, 1, '2026-05-24', 10, 'medium', 0, '2026-05-24 17:30:29'),
-(21, 10, '2026-05-24', 10, 'medium', 1, '2026-05-24 18:10:58'),
-(26, 4, '2026-05-24', 10, 'medium', 1, '2026-05-24 20:16:41'),
-(28, 1, '2026-05-25', 10, 'medium', 1, '2026-05-25 02:01:14'),
-(29, 12, '2026-05-25', 10, 'easy', 0, '2026-05-25 03:33:14'),
-(30, 12, '2026-05-25', 10, 'medium', 0, '2026-05-25 03:34:18'),
-(31, 12, '2026-05-25', 10, 'easy', 0, '2026-05-25 03:52:43'),
-(32, 13, '2026-05-27', 5, 'easy', 0, '2026-05-27 18:53:34'),
-(33, 13, '2026-05-27', 5, 'easy', 0, '2026-05-27 18:53:51'),
-(34, 13, '2026-05-27', 10, 'medium', 0, '2026-05-27 18:56:33'),
-(35, 1, '2026-08-25', 10, 'medium', 0, '2026-08-25 15:46:10'),
-(36, 1, '2026-08-26', 5, 'easy', 0, '2026-08-26 15:58:28');
-
 -- --------------------------------------------------------
 
 --
@@ -136,74 +116,6 @@ CREATE TABLE `dialog_messages` (
   `message_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `dialog_messages`
---
-
-INSERT INTO `dialog_messages` (`id`, `dialog_id`, `message_number`, `sender_type`, `message_text`, `created_at`) VALUES
-(112, 14, 1, 'user', 'афафаф', '2026-05-24 17:27:00'),
-(113, 14, 2, 'correction', '???? Текст не содержит никаких английских слов или фраз.', '2026-05-24 17:27:01'),
-(114, 14, 3, 'correction', '✏️ Исправление: The text does not contain any English words or phrases.', '2026-05-24 17:27:01'),
-(115, 14, 4, 'assistant', 'It seems like you\'re trying to say something, but I\'m not quite sure what it is. Don\'t worry, we can start fresh. How about we talk about something interesting? Have you traveled to any exciting places recently or have any fun trips planned? I\'m all ears and would love to hear about your adventures.', '2026-05-24 17:27:02'),
-(131, 21, 1, 'user', 'How are you?', '2026-05-24 18:11:09'),
-(132, 21, 2, 'correction', '???? Отлично! Вы написали идеальный вопрос на английском языке.', '2026-05-24 18:11:10'),
-(133, 21, 3, 'assistant', 'I\'m doing great, thanks for asking. I\'ve had a lovely day so far, and I\'m looking forward to chatting with you. How about you? What have you been up to lately? Have you traveled anywhere exciting or had any interesting experiences you\'d like to share?', '2026-05-24 18:11:10'),
-(141, 26, 1, 'user', 'Hello, how are you?', '2026-05-24 20:16:53'),
-(142, 26, 2, 'correction', '???? Отлично! Ваш текст написан без ошибок. Вы правильно использовали приветствие и вопрос, что делает ваш текст вежливым и понятным.', '2026-05-24 20:16:54'),
-(143, 26, 3, 'assistant', 'Hello. I\'m doing great, thanks for asking. It\'s lovely to meet you. I hope you\'re having a fantastic day as well. To get us started, I was wondering: have you traveled to any exciting places recently or have any upcoming trips planned?', '2026-05-24 20:16:55'),
-(144, 26, 4, 'user', 'im fain', '2026-05-24 20:17:07'),
-(145, 26, 5, 'correction', '???? Ошибка в написании фразы. \'im\' должно быть заменено на \'I\'m\', что является сокращением от \'I am\'.', '2026-05-24 20:17:08'),
-(146, 26, 6, 'correction', '✏️ Исправление: I\'m fine', '2026-05-24 20:17:08'),
-(147, 26, 7, 'assistant', 'It sounds like you\'re feeling a bit tired. Don\'t worry, we can take things at your pace. Sometimes, talking about something you enjoy can be a great way to boost your energy. So, let\'s try something a bit different. What do you like to do in your free time? Do you have a job or are you a student? What kind of things are you interested in?', '2026-05-24 20:17:08'),
-(148, 28, 1, 'user', 'Hii', '2026-05-25 02:01:20'),
-(149, 28, 2, 'correction', '???? Орфографическая ошибка. Правильное написание - \"Hi\" или \"Hello\", а не \"Hii\".', '2026-05-25 02:01:23'),
-(150, 28, 3, 'correction', '✏️ Исправление: Hi', '2026-05-25 02:01:23'),
-(151, 28, 4, 'assistant', 'Hello. It\'s nice to meet you. How are you today? Have you traveled to any exciting places recently or have any fun plans coming up? I\'d love to hear about them.', '2026-05-25 02:01:25'),
-(152, 28, 5, 'user', 'I wanna go to Thailand', '2026-05-25 02:01:36'),
-(153, 28, 6, 'correction', '???? Ошибка в использовании разговорного выражения \'wanna\', которое является сокращением от \'want to\', но в正式ной речи и письме лучше использовать полную форму \'want to\'.', '2026-05-25 02:01:38'),
-(154, 28, 7, 'correction', '✏️ Исправление: I want to go to Thailand', '2026-05-25 02:01:38'),
-(155, 28, 8, 'assistant', 'Thailand is a wonderful destination. The food, the culture, the beaches... there\'s so much to explore. What is it about Thailand that interests you the most? Is it the delicious cuisine, the beautiful temples, or the vibrant cities like Bangkok? Have you thought about what you\'d like to do or see when you get there?', '2026-05-25 02:01:40'),
-(156, 29, 1, 'user', 'gggggggggggggggggggggggggggggggggggggggggggggfffffffffffffffffffffffffff  f', '2026-05-25 03:33:24'),
-(157, 29, 2, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:33:26'),
-(158, 29, 3, 'user', 'affaf', '2026-05-25 03:33:41'),
-(159, 29, 4, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:33:42'),
-(160, 29, 5, 'user', 'gaga.fgjagasngnsa', '2026-05-25 03:34:00'),
-(161, 29, 6, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:34:01'),
-(162, 30, 1, 'user', 'heheol', '2026-05-25 03:34:24'),
-(163, 30, 2, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:34:25'),
-(164, 30, 3, 'user', 'hihi', '2026-05-25 03:34:31'),
-(165, 30, 4, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:34:32'),
-(166, 31, 1, 'user', 'hello', '2026-05-25 03:52:45'),
-(167, 31, 2, 'assistant', 'Can you tell me more about that?', '2026-05-25 03:52:46'),
-(168, 31, 3, 'user', 'How are you', '2026-05-25 03:52:57'),
-(169, 31, 4, 'correction', '???? Отлично! Ваш текст грамматически правильный.', '2026-05-25 03:52:58'),
-(170, 31, 5, 'assistant', 'I\'m fine, thank you. How about you? What do you like to do in your free time? Do you have a hobby?', '2026-05-25 03:52:59'),
-(171, 31, 6, 'user', 'fyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyeduuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuskhk', '2026-05-25 03:53:14'),
-(172, 31, 7, 'correction', '???? Введенный текст не содержит осмысленных слов или предложений, возможно, это набор случайных символов.', '2026-05-25 03:53:15'),
-(173, 31, 8, 'correction', '✏️ Исправление: Не удалось определить осмысленный текст', '2026-05-25 03:53:15'),
-(174, 31, 9, 'assistant', 'It looks like your keyboard got a bit mixed up. Don\'t worry, it\'s okay. Let\'s start again. What\'s your name?', '2026-05-25 03:53:17'),
-(175, 34, 1, 'user', 'Hello', '2026-05-27 18:56:37'),
-(176, 34, 2, 'assistant', 'Can you tell me more about that?', '2026-05-27 18:57:00'),
-(177, 34, 3, 'user', 'hello', '2026-05-27 18:57:05'),
-(178, 34, 4, 'correction', '???? Ошибка в регистре первой буквы. Первая буква должна быть заглавной.', '2026-05-27 18:57:11'),
-(179, 34, 5, 'correction', '✏️ Исправление: Hello', '2026-05-27 18:57:11'),
-(180, 34, 6, 'assistant', 'Hello. It\'s nice to meet you. How are you doing today? Have you traveled anywhere exciting recently or have any fun plans coming up?', '2026-05-27 18:57:16'),
-(181, 34, 7, 'user', 'gfghjhnjkbhhbkj', '2026-05-27 18:58:03'),
-(182, 34, 8, 'correction', '???? Введенный текст не содержит осмысленных слов или предложений, возможно, это набор случайных клавиш.', '2026-05-27 18:58:04'),
-(183, 34, 9, 'correction', '✏️ Исправление: Не удалось определить осмысленный текст', '2026-05-27 18:58:04'),
-(184, 34, 10, 'assistant', 'It looks like you might have had a little trouble typing there. Don\'t worry, it happens to the best of us. Let\'s start fresh. How about we talk about something interesting? What do you like to do in your free time? Do you enjoy traveling, trying new foods, or something else?', '2026-05-27 18:58:19'),
-(185, 35, 1, 'user', 'hello', '2026-08-25 15:46:13'),
-(186, 35, 2, 'assistant', 'Can you tell me more about that?', '2026-08-25 15:46:14'),
-(187, 36, 1, 'user', 'hello?', '2026-08-26 15:58:42'),
-(188, 36, 2, 'correction', '? Good work!', '2026-08-26 15:58:42'),
-(189, 36, 3, 'assistant', 'Can you tell me more about that?', '2026-08-26 15:58:43'),
-(190, 36, 4, 'user', 'hii', '2026-08-26 16:05:06'),
-(191, 36, 5, 'correction', '? Good work!', '2026-08-26 16:05:06'),
-(192, 36, 6, 'assistant', 'I\'m having trouble responding right now. Please try again.', '2026-08-26 16:05:06'),
-(193, 36, 7, 'user', 'wow', '2026-08-26 16:24:26'),
-(194, 36, 8, 'correction', '? Good work!', '2026-08-26 16:24:40'),
-(195, 36, 9, 'assistant', 'I\'m having trouble responding right now. Please try again.', '2026-08-26 16:24:40');
 
 -- --------------------------------------------------------
 
@@ -362,22 +274,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
-(1, 'login', '5f4dcc3b5aa765d61d8327deb882cf99', 'email@mail.ru'),
-(2, 'mylogin', '5f4dcc3b5aa765d61d8327deb882cf99', 'myemail'),
-(4, 'Julia', '5f4dcc3b5aa765d61d8327deb882cf99', 'email@mail.ru'),
-(7, 'dddddddddddddddddddddddddddddddddddddddddddddddddd', '0320116b2af221a6f673f93925b3fc62', 'deeeeeeeeeeee@vbgtjnh.sd'),
-(8, 'Lalala', 'c17ed7d7e2d8a60c78c715e165fe3c38', 'juliaandrianova0306@gmail.com'),
-(9, 'User', '5f4dcc3b5aa765d61d8327deb882cf99', 'ya@mail.ru'),
-(10, 'Juliaa', '5f4dcc3b5aa765d61d8327deb882cf99', 'emaul@mail.ru'),
-(11, 'qwerty12345', 'b717415eb5e699e4989ef3e2c4e9cbf7', 'nastasya.ivanova.2707@mail.ru'),
-(12, 'aaa', '74b87337454200d4d33f80c4663dc5e5', 'aaa@mai.a'),
-(13, 'vika', '5f4dcc3b5aa765d61d8327deb882cf99', 'email@mail.ru');
 
 --
 -- Индексы сохранённых таблиц

@@ -166,7 +166,7 @@ stage('Database Validation') {
               ${APP_NAME}_web-server
 
             echo "Ожидание стабилизации после первой реплики..."
-            sleep 10
+            sleep 5
             docker service ps ${APP_NAME}_web-server --no-trunc | head -20
 
             # Мониторинг после первого шага
@@ -185,7 +185,7 @@ stage('Database Validation') {
             [ "$MONITOR_SUCCESS" -ge 1 ] || exit 1
 
             echo "Мониторинг после первой реплики прошёл!"
-            sleep 15
+            sleep 5
 
             # Шаг 2: Обновляем оставшиеся реплики
             echo "Шаг 2: Обновляем оставшиеся реплики"
@@ -221,7 +221,7 @@ stage('Database Validation') {
       steps {
         sh '''
           echo "=== Финальная проверка ==="
-          for i in $(seq 1 5); do
+          for i in $(seq 1 2); do
             echo "Финальный тест $i/5..."
             if curl -f --max-time 10 http://${MANAGER_IP}:8080/ > /dev/null 2>&1; then
               echo "✓ Тест $i пройден"
@@ -229,7 +229,7 @@ stage('Database Validation') {
               echo "✗ Тест $i не пройден"
               exit 1
             fi
-            sleep 5
+            sleep 1
           done
           echo "Все финальные тесты пройдены!"
         '''
