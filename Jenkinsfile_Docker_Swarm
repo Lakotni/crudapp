@@ -70,7 +70,7 @@ pipeline {
             else
               echo "✗ Тест $i: нет ответа"
             fi
-            sleep 4
+            sleep 1
           done
           echo "Успешных тестов: $SUCCESS/$TESTS"
           [ "$SUCCESS" -ge 2 ] || exit 1
@@ -192,11 +192,11 @@ stage('Database Validation') {
             docker service update \
               --image ${DOCKER_HUB_USER}/${BACKEND_IMAGE_NAME}:${BUILD_NUMBER} \
               --update-parallelism 1 \
-              --update-delay 30s \
+              --update-delay 6s \
               ${APP_NAME}_web-server
 
             echo "Ожидание завершения полного обновления..."
-            sleep 15
+            sleep 5
 
             # Проверяем, что все реплики обновлены
             echo "Статус после обновления:"
@@ -205,11 +205,11 @@ stage('Database Validation') {
             # Удаляем canary — он больше не нужен
             echo "Удаление canary stack..."
             docker stack rm ${CANARY_APP_NAME} || true
-            sleep 10
+            sleep 5
           else
             echo "Первый деплой — разворачиваем продакшен"
             docker stack deploy -c docker-compose.yaml ${APP_NAME} --with-registry-auth
-            sleep 10
+            sleep 5
           fi
 
           echo "Постепенное переключение завершено"
