@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: db
--- Время создания: Окт 09 2026 г., 13:29
+-- Время создания: Окт 09 2026 г., 13:30
 -- Версия сервера: 8.0.19
 -- Версия PHP: 7.4.1
 
@@ -274,13 +274,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
-(1, 'login', 'password', 'email@mail.ru');
 
 --
 -- Индексы сохранённых таблиц
