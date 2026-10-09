@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: db
--- Время создания: Окт 09 2026 г., 13:27
+-- Время создания: Окт 09 2026 г., 13:29
 -- Версия сервера: 8.0.19
 -- Версия PHP: 7.4.1
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `cards` (
   `id` int NOT NULL,
   `set_id` int NOT NULL,
-  `front_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `front_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `back_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `card_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
